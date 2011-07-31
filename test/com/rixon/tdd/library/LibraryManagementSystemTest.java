@@ -47,6 +47,7 @@ public class LibraryManagementSystemTest {
     static LibraryManagementSystem libraryManagementSystem;
 
     //Utility variables
+    //some dummy changes
     static DateFormat dateFormat;
     private static final String BOOK="BOOK";
     private static final String MOVIE="MOVIE";
