@@ -1,0 +1,18 @@
+Library with Books and Videos.
+
+Actor – Borrower, Librarian
+
+BRs –
+1) Add new libraryItemInstance or video to libraryManagementSystem
+2) Archive libraryItemInstance or video from libraryManagementSystem (no more available for rent)
+3) If I add another item with an existing ISBN number, I should add to copies available not a different item
+4) Assign category /ratings to books/videos
+5) Transfer books/videos from one category to another
+6) More than 2 Items of similar type cannot be borrowed (Can’t have more than 2 books at same time)
+   1.)Items that is reserved to another user cannot be borrowed by a different user ( provided current date is < reservation date else allowed)
+7)  Transfer libraryItemInstance/video from an existing borrower to another without returning
+8)  Can’t borrow more than 1 video at a time
+9)  Person can reserve the item, if unavailable.
+10) There should be reservation date also
+11) Change rent for videos / books
+12)
