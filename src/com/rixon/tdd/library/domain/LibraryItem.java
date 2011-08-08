@@ -88,9 +88,8 @@ public class LibraryItem implements ILibraryItem {
         if (!identifier.equals(that.identifier)) return false;
         if (!itemType.equals(that.itemType)) return false;
         if (!ownerInformation.equals(that.ownerInformation)) return false;
-        if (!title.equals(that.title)) return false;
+        return title.equals(that.title);
 
-        return true;
     }
 
     @Override

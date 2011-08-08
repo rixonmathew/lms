@@ -89,9 +89,8 @@ public class CheckedOutItem {
         if (!checkedOutDate.equals(that.checkedOutDate)) return false;
         if (!libraryItemInstance.equals(that.libraryItemInstance)) return false;
         if (!member.equals(that.member)) return false;
-        if (!requiredReturnDate.equals(that.requiredReturnDate)) return false;
+        return requiredReturnDate.equals(that.requiredReturnDate);
 
-        return true;
     }
 
     @Override

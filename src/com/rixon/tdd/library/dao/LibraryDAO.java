@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class LibraryDAO {
 
-    private EntityManagerFactory entityManagerFactory;
+
     private EntityManager entityManager;
     private static LibraryDAO libraryDAOInstance;
 
@@ -44,7 +44,7 @@ public class LibraryDAO {
     }
 
     public LibraryDAO() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("lms-eclipselink");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("lms-eclipselink");
         entityManager = entityManagerFactory.createEntityManager();
 
     }

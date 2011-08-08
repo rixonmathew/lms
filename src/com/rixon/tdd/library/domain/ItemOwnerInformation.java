@@ -57,9 +57,8 @@ public class ItemOwnerInformation {
         ItemOwnerInformation that = (ItemOwnerInformation) o;
 
         if (ownerType != that.ownerType) return false;
-        if (!owners.equals(that.owners)) return false;
+        return owners.equals(that.owners);
 
-        return true;
     }
 
     @Override

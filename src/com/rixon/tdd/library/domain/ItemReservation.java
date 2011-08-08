@@ -69,9 +69,8 @@ public class ItemReservation
         if (!libraryItemInstance.equals(that.libraryItemInstance)) return false;
         if (!libraryMember.equals(that.libraryMember)) return false;
         if (!reservationDate.equals(that.reservationDate)) return false;
-        if (!reservationValidUpto.equals(that.reservationValidUpto)) return false;
+        return reservationValidUpto.equals(that.reservationValidUpto);
 
-        return true;
     }
 
     @Override

@@ -54,9 +54,8 @@ public class UniqueIdentifier {
         UniqueIdentifier that = (UniqueIdentifier) uiToCompare;
 
         if (!value.equals(that.value)) return false;
-        if (!type.equals(that.type)) return false;
+        return type.equals(that.type);
 
-        return true;
     }
 
     @Override

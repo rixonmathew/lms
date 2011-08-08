@@ -56,10 +56,8 @@ public class CustomProperty {
         CustomProperty that = (CustomProperty) o;
 
         if (propertyType != that.propertyType) return false;
-        if (propertyValue != null ? !propertyValue.equals(that.propertyValue) : that.propertyValue != null)
-            return false;
+        return !(propertyValue != null ? !propertyValue.equals(that.propertyValue) : that.propertyValue != null);
 
-        return true;
     }
 
     @Override

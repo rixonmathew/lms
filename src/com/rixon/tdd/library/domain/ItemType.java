@@ -109,9 +109,8 @@ public class ItemType implements Serializable {
         ItemType itemType = (ItemType) itemTypeToCompare;
 
         if (!type.equals(itemType.type)) return false;
-        if (!description.equals(itemType.description)) return false;
+        return description.equals(itemType.description);
 
-        return true;
     }
 
     @Override

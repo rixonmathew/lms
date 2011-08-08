@@ -214,15 +214,13 @@ public class LibraryItemStore implements ILibraryItemStore {
                 itemInstances.addAll(getItemInstances(libraryItem.getUniqueId()));
             }
         }
-        SearchResult searchResult = new SearchResult(itemInstances);
-        return searchResult;
+        return new SearchResult(itemInstances);
 	}
 
 	@Override
 	public SearchResult searchByIdentifier(UniqueIdentifier uniqueIdentifier) {
         List<ILibraryItemInstance> items = getItemInstances(uniqueIdentifier);
-        SearchResult searchResult = new SearchResult(items);
-        return searchResult;
+        return new SearchResult(items);
 	}
 
 
