@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "ITEM_TYPE")
-@NamedQuery(name = "allItems",query = "select a from ItemType a")
+@NamedQuery(name = "allItemTypes",query = "select a from ItemType a")
 public class ItemType implements Serializable {
 
 

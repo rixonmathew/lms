@@ -23,19 +23,28 @@ package com.rixon.tdd.library.domain;
 
 import com.rixon.tdd.library.type.TypeOfCustomProperty;
 
+import javax.persistence.*;
 import java.util.Map;
 
 /**
  * @author: Rixon Mathew(rixonmathew@gmail.com)
  * date   : 6/12/11 - 10:11 AM
  */
+@Entity
+@Table(name="V_ITEM")
+@NamedQuery(name="allItems",query="select a from LibraryItem a")
 public class LibraryItem implements ILibraryItem {
 
+
+    private int id;
     private String title;
     private ItemOwnerInformation ownerInformation;
     private ItemType itemType;
     private Map<TypeOfCustomProperty,CustomProperty> customProperties;
     private UniqueIdentifier identifier;
+
+    public LibraryItem() {
+    }
 
     private LibraryItem(String title, ItemOwnerInformation ownerInformation, ItemType itemType,
                        Map<TypeOfCustomProperty, CustomProperty> customProperties, UniqueIdentifier identifier) {
@@ -46,9 +55,23 @@ public class LibraryItem implements ILibraryItem {
         this.identifier = identifier;
     }
 
+    @Id
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
+    @Column(name="ITEM_NAME")
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
@@ -61,6 +84,9 @@ public class LibraryItem implements ILibraryItem {
         return itemType;
     }
 
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
     @Override
     public CustomProperty getCustomProperty(TypeOfCustomProperty propertyType) {
         return customProperties.get(propertyType);

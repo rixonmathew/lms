@@ -21,6 +21,7 @@
 
 package com.rixon.tdd.library.dao;
 
+import com.rixon.tdd.library.domain.ILibraryItem;
 import com.rixon.tdd.library.domain.ItemType;
 
 import javax.persistence.*;
@@ -49,7 +50,7 @@ public class LibraryDAO {
 
     }
     public List<ItemType> getAllItemTypes() {
-        Query query =  entityManager.createNamedQuery("allItems");
+        Query query =  entityManager.createNamedQuery("allItemTypes");
         List results = query.getResultList();
         return (List<ItemType>)results;
     }
@@ -74,4 +75,9 @@ public class LibraryDAO {
     }
 
 
+    public List<ILibraryItem> getAllItems() {
+        Query query =  entityManager.createNamedQuery("allItems");
+        List results = query.getResultList();
+        return (List<ILibraryItem>)results;
+    }
 }

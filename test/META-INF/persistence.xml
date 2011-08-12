@@ -25,6 +25,7 @@
     <persistence-unit name = "lms-eclipselink" transaction-type = "RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>com.rixon.tdd.library.domain.ItemType</class>
+        <class>com.rixon.tdd.library.domain.LibraryItem</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@rixpc:1521:rixorcl"/>

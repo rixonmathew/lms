@@ -21,6 +21,7 @@
 
 package com.rixon.tdd.library.dao;
 
+import com.rixon.tdd.library.domain.ILibraryItem;
 import com.rixon.tdd.library.domain.ItemType;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -63,10 +64,20 @@ public class DAOTest {
     }
 
     @Test
-    public void addAndRemoveItemTypes(){
-        ItemType type = new ItemType(10,"Test1","Test123");
-        libraryDAO.addItemType(type);
-        //remove the itemtype that has been added
-        libraryDAO.removeItemType(type);
+    public void testGetAllItems() {
+        List<ILibraryItem> items = libraryDAO.getAllItems();
+        assertNotNull(items);
+        for (ILibraryItem iLibraryItem:items) {
+            System.out.println(iLibraryItem);
+        }
     }
+
+
+//    @Test
+//    public void addAndRemoveItemTypes(){
+//        ItemType type = new ItemType(10,"Test1","Test123");
+//        libraryDAO.addItemType(type);
+//        //remove the itemtype that has been added
+//        libraryDAO.removeItemType(type);
+//    }
 }
