@@ -1,0 +1,93 @@
+package com.rixon.lms.model;
+
+import com.rixon.lms.business.PropertyProvider;
+import com.rixon.lms.domain.ILibraryItem;
+import com.rixon.lms.domain.SearchResult;
+import com.rixon.lms.domain.SearchResultDetail;
+import com.rixon.lms.util.LMSUtil;
+import com.rixon.lms.util.PropertyConstants;
+import org.eclipse.persistence.internal.jpa.weaving.MethodWeaver;
+
+import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author: Rixon Mathew(rixonmathew@gmail.com)
+ * date   : 8/7/11 - 9:17 PM
+ */
+public class SearchResultsTableModel extends AbstractTableModel{
+
+    private Map<Integer,String> headerNames;
+    private SearchResult searchResult;
+
+    public SearchResultsTableModel() {
+        initHeader();
+    }
+
+    public SearchResultsTableModel(SearchResult searchResult) {
+        initHeader();
+        this.searchResult = searchResult;
+    }
+
+    private void initHeader() {
+        headerNames = new HashMap<Integer, String>();
+        headerNames.put(0,"ID");
+        headerNames.put(1,"Title");
+        headerNames.put(2,"Author");
+        headerNames.put(3,"Description");
+        headerNames.put(4,"Date");
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return headerNames.get(column);
+    }
+
+    @Override
+    public int getRowCount() {
+        if (searchResult == null) {
+            return 0;
+        }
+        return searchResult.getAllSearchedItems().size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return headerNames.size();
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        if (searchResult == null) {
+            return null;
+        }
+        SearchResultDetail tableRow = searchResult.getAllSearchedItems().get(0);
+        ILibraryItem libraryItem = tableRow.getLibraryItem();
+        //TODO Search Result is not the correct interface
+        switch(columnIndex){
+            case 0:
+                return libraryItem.getUniqueId().getValue();
+            case 1:
+                return libraryItem.getName();
+            case 2:
+                String author = libraryItem.getItemPropertyValue(PropertyProvider.getProperty(PropertyConstants.AUTHOR)).getPropertyValue();
+                return author;
+            case 3:
+                return libraryItem.getName(); //TODO introduce description
+            case 4:
+                String publishedDate = libraryItem.getItemPropertyValue(PropertyProvider.
+                        getProperty(PropertyConstants.PUBLISHED_DATE)).getPropertyValue();
+                return publishedDate;
+            default:
+                throw new IllegalArgumentException("Column not expected :"+columnIndex);
+        }
+    }
+
+    public void refreshTableModel(SearchResult searchResult) {
+        this.searchResult = searchResult;
+        fireTableDataChanged();
+    }
+}
