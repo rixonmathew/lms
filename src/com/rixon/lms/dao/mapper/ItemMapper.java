@@ -25,9 +25,9 @@ public class ItemMapper {
         }
         LibraryItem.LibraryItemBuilder builder = new LibraryItem.LibraryItemBuilder();
         builder.setName(itemRS.getName());
+        builder.setDescription(itemRS.getDescription());
         builder.setItemProperties(mapItemProperties(itemRS.getProperties()));
         //TODO think about how to set a generic identitier? Current assumption is that all items will have an isbn
-
         Property property = PropertyProvider.getProperty(PropertyConstants.ISBN);
         PropertyRS propertyRS = PropertyMapper.mapToPropertyRS(property);
         String isbn = itemRS.getProperties().get(propertyRS).getValue();
@@ -42,7 +42,6 @@ public class ItemMapper {
             Property property = PropertyMapper.mapToProperty(propertyRS);
             ItemPropertyValue propertyValue = ItemPropertyMapper.mapToItemProperty(propertyRSMap.get(propertyRS));
             itemPropertyValueMap.put(property,propertyValue);
-
         }
         return itemPropertyValueMap;
     }

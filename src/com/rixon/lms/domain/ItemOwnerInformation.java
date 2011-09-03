@@ -31,8 +31,8 @@ import java.util.List;
  */
 public class ItemOwnerInformation {
 
-    private OwnerType ownerType;
-    private List<String> owners;
+    private final OwnerType ownerType;
+    private final List<String> owners;
 
     private ItemOwnerInformation(OwnerType ownerType, List<String> owners) {
         this.ownerType = ownerType;

@@ -34,7 +34,7 @@ public enum TypeOfCustomProperty {
     GENRE("Genre for Movie"),
     CATEGORY("Category for Book");
 
-    private String propertyDescription;
+    private final  String propertyDescription;
 
     TypeOfCustomProperty(String propertyDescription) {
         this.propertyDescription = propertyDescription;

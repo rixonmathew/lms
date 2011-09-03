@@ -5,7 +5,8 @@ package com.rixon.lms.util;
  * date   : 8/28/11 - 8:56 PM
  */
 public final class PropertyConstants {
-    private PropertyConstants(){};
+
+    private PropertyConstants(){}
 
     public static final String AUTHOR = "AUTHOR";
     public static final String TITLE = "TITLE";
@@ -19,4 +20,6 @@ public final class PropertyConstants {
     public static final String WEBSITE = "WEBSITE";
     public static final String RATING = "RATING";
     public static final String CATEGORY = "CATEGORY";
+    public static final String BARCODE = "BARCODE";
+
 }

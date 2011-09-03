@@ -87,22 +87,6 @@ public class ItemTypeRS implements Serializable {
         this.description = description;
     }
 
-    /**
-     * Method to get All Custom Properties that belongs to a particular ItemRS Type
-     * @return Read Only List of Custom PropertyRS
-     */
-    public List<ItemPropertyValue> getAllCustomProperties() {
-        return null; //TODO provide implementation
-    }
-
-    /**
-     * Method to set a particular Custom property
-     * @param itemPropertyValue
-     */
-    public void addCustomProperty(ItemPropertyValue itemPropertyValue) {
-        //TODO provide implementation
-    }
-
     @Override
     public boolean equals(Object itemTypeToCompare) {
         if (this == itemTypeToCompare) return true;

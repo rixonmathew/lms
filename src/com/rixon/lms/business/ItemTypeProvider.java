@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class ItemTypeProvider {
 
-    private static Map<String,ItemType> itemTypeCache = new HashMap<String, ItemType>();
+    private final static Map<String,ItemType> itemTypeCache = new HashMap<String, ItemType>();
 
     public static ItemType getItemType(String code)
     {
@@ -50,8 +50,8 @@ public class ItemTypeProvider {
 
     private static void  loadItemTypeCacheIfRequired() {
         if (itemTypeCache.isEmpty()) {
-            List<ItemTypeRS> itemTypeRSs = LibraryDAO.getInstance().getAllItemTypes();
-            for (ItemTypeRS itemTypeRS : itemTypeRSs) {
+            List<ItemTypeRS> itemTypeRSList = LibraryDAO.getInstance().getAllItemTypes();
+            for (ItemTypeRS itemTypeRS : itemTypeRSList) {
                 itemTypeCache.put(itemTypeRS.getType(), ItemTypeMapper.mapToItemType(itemTypeRS));
             }
         }

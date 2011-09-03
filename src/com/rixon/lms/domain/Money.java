@@ -5,12 +5,12 @@ package com.rixon.lms.domain;
  * User: rixon
  * Date: 17/6/11
  * Time: 11:19 AM
- * To change this template use File | Settings | File Templates.
+ * Domain class representing Money
  */
 public class Money {
 
-    private String currencyCode;
-    private float amount;
+    private final String currencyCode;
+    private final float amount;
 
     public Money(String currencyCode, float amount) {
         this.currencyCode = currencyCode;

@@ -13,11 +13,10 @@ import java.util.Date;
  */
 public class LMSUtil {
 
-    private static DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
+    private static final DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
     public static UniqueIdentifier createISBN(String isbn) {
-        UniqueIdentifier identifier = new UniqueIdentifier.UniqueIdentifierBuilder().setType(PropertyConstants.ISBN)
+        return new UniqueIdentifier.UniqueIdentifierBuilder().setType(PropertyConstants.ISBN)
                                           .setValue(isbn).createUniqueIdentifier();
-        return identifier;
     }
 
     public static Date getFormattedDate(String dateString)
@@ -25,7 +24,7 @@ public class LMSUtil {
         try {
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         throw new IllegalArgumentException("Invalid date string "+dateString);
     }

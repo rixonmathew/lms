@@ -50,7 +50,8 @@ import java.util.Random;
  * @author Mikael Grev, MiG InfoCom AB
  *         Date: 2006-sep-08
  */
-public class SwingDemo extends JFrame
+@SuppressWarnings({"ConstantConditions", "ConstantConditions", "ConstantConditions", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach", "ForLoopReplaceableByForEach"})
+public class MigLayOutDemo extends JFrame
 {
 	public static final int INITIAL_INDEX = 0;
 	private static final boolean DEBUG = false;
@@ -102,15 +103,13 @@ public class SwingDemo extends JFrame
 
 	private JPanel contentPanel = DEBUG ? new JPanel(new BorderLayout()) : new JPanel(new MigLayout("wrap", "[]unrel[grow]", "[grow][pref]"));
 
-	private JTabbedPane layoutPickerTabPane = new JTabbedPane();
-		private JList pickerList = new JList(new DefaultListModel());
+    private JList pickerList = new JList(new DefaultListModel());
 
 	private JTabbedPane southTabPane = new JTabbedPane();
 		private JScrollPane descrTextAreaScroll = createTextAreaScroll("", 5, 80, true);
 		private JTextArea descrTextArea = (JTextArea) descrTextAreaScroll.getViewport().getView();
 
-		private JScrollPane sourceTextAreaScroll = null;
-		private JTextArea sourceTextArea = null;
+    private JTextArea sourceTextArea = null;
 
 	private JPanel layoutDisplayPanel = new JPanel(new BorderLayout(0, 0));
 	private static boolean buttonOpaque = true;
@@ -173,7 +172,7 @@ public class SwingDemo extends JFrame
 					                   "\nExamples:\n" +
 					                   " java -jar swingdemoapp.jar -bench -boutC:/bench.txt -append\n" +
 					                   " java -jar swingdemoapp.jar -ocean -bench20\n" +
-					                   " java -cp c:\\looks-2.0.4.jar;.\\swingdemoapp.jar net.miginfocom.demo.SwingDemo -lafcom.jgoodies.looks.plastic.PlasticLookAndFeel -bench20 -boutC:/bench.txt");
+					                   " java -cp c:\\looks-2.0.4.jar;.\\swingdemoapp.jar net.miginfocom.demo.MigLayOutDemo -lafcom.jgoodies.looks.plastic.PlasticLookAndFeel -bench20 -boutC:/bench.txt");
 					System.exit(0);
 				}
 			}
@@ -208,24 +207,26 @@ public class SwingDemo extends JFrame
 					ex.printStackTrace();
 				}
 
-				new SwingDemo();
+				new MigLayOutDemo();
 			}
 		});
 	}
 
-	public SwingDemo()
+	public MigLayOutDemo()
 	{
 		super("MigLayout Swing Demo v2.5 - Mig Layout v" + LayoutUtil.getVersion());
 
 //		if (benchRuns > 0)
 //			RepaintManager.currentManager(this).setDoubleBufferingEnabled(false);
 
-		if (benchRuns == 0) {
+        JScrollPane sourceTextAreaScroll = null;
+        if (benchRuns == 0) {
 			sourceTextAreaScroll = createTextAreaScroll("", 5, 80, true);
 			sourceTextArea = (JTextArea) sourceTextAreaScroll.getViewport().getView();
 		}
 
-		if (DEBUG) {
+        JTabbedPane layoutPickerTabPane = new JTabbedPane();
+        if (DEBUG) {
 			contentPanel.add(layoutDisplayPanel, BorderLayout.CENTER);
 //		    contentPanel.add(layoutPickerTabPane, BorderLayout.WEST);
 //		    contentPanel.add(descriptionTabPane, BorderLayout.SOUTH);
@@ -306,7 +307,7 @@ public class SwingDemo extends JFrame
 				layoutDisplayPanel.removeAll();
 				try {
 					pickerList.requestFocusInWindow();
-					final JComponent panel = (JComponent) SwingDemo.class.getMethod(methodName, new Class[0]).invoke(SwingDemo.this, new Object[0]);
+					final JComponent panel = (JComponent) MigLayOutDemo.class.getMethod(methodName, new Class[0]).invoke(MigLayOutDemo.this, new Object[0]);
 					layoutDisplayPanel.add(panel);
 					descrTextArea.setText(panels[ix][1]);
 					descrTextArea.setCaretPosition(0);
@@ -407,7 +408,7 @@ public class SwingDemo extends JFrame
 				                 "Average Run Time:   " + (benchRunTime / benchRuns) + " millis (" + benchRuns + " runs).\n\n";
 
 				if (benchOutFileName == null) {
-					JOptionPane.showMessageDialog(SwingDemo.this, message, "Results", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(MigLayOutDemo.this, message, "Results", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					FileWriter fw = null;
 					try {
@@ -3429,12 +3430,10 @@ public class SwingDemo extends JFrame
 		ta.setWrapStyleWord(true);
 		ta.setLineWrap(true);
 
-		JScrollPane scroll = new JScrollPane(
-			    ta,
-			    hasVerScroll ? ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED : ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-		return scroll;
+        return new JScrollPane(
+                ta,
+                hasVerScroll ? ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED : ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 
 	private JComponent configureActiveComponet(JComponent c)
@@ -3474,7 +3473,7 @@ public class SwingDemo extends JFrame
 		{
 			JComponent c = (JComponent) e.getSource();
 			LayoutManager lm = c.getParent().getLayout();
-			if (lm instanceof MigLayout == false)
+			if (!(lm instanceof MigLayout))
 				lm = c.getLayout();
 
 			if (lm instanceof MigLayout) {
@@ -3489,7 +3488,7 @@ public class SwingDemo extends JFrame
 				Object colsConstr = isComp ? null : layout.getColumnConstraints();
 				Object layoutConstr = isComp ? null : layout.getLayoutConstraints();
 
-				ConstraintsDialog cDlg = new ConstraintsDialog(SwingDemo.this,
+				ConstraintsDialog cDlg = new ConstraintsDialog(MigLayOutDemo.this,
 					   layoutConstr instanceof LC ? IDEUtil.getConstraintString((LC) layoutConstr, false) : (String) layoutConstr,
 					   rowsConstr instanceof AC ? IDEUtil.getConstraintString((AC) rowsConstr, false, false) : (String) rowsConstr,
 					   colsConstr instanceof AC ? IDEUtil.getConstraintString((AC) colsConstr, false, false) : (String) colsConstr,
@@ -3526,7 +3525,8 @@ public class SwingDemo extends JFrame
 		}
 	}
 
-	private static class ToolTipListener extends MouseMotionAdapter
+	@SuppressWarnings({"ConstantConditions"})
+    private static class ToolTipListener extends MouseMotionAdapter
 	{
 		public void mouseMoved(MouseEvent e)
 		{

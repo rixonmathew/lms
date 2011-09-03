@@ -37,7 +37,7 @@ import java.util.Set;
  */
 public class LibraryManagementSystem {
 
-    LibraryMemberStore memberStore;
+    private final LibraryMemberStore memberStore;
 
     public LibraryManagementSystem()
     {
@@ -85,6 +85,11 @@ public class LibraryManagementSystem {
         return itemStore.searchByIdentifier(uniqueIdentifier);
     }
 
+    public SearchResult searchAllAttributes(ItemType itemType,String itemTitle){
+        LibraryItemStore itemStore = StoreProvider.getStoreForItem(itemType);
+        return itemStore.searchAllAttributes(itemTitle);
+    }
+
     public void archiveItem(ILibraryItem libraryItem) {
         LibraryItemStore itemStore = StoreProvider.getStoreForItem(libraryItem.getItemType());
         itemStore.archiveItem(libraryItem);
@@ -128,7 +133,7 @@ public class LibraryManagementSystem {
 
     public List<ItemReservation> getReservedItemsForMember(ItemType itemType, LibraryMember member) {
         LibraryItemStore itemStore = StoreProvider.getStoreForItem(itemType);
-        return itemStore.getReservedItemsForMember(itemType,member);
+        return itemStore.getReservedItemsForMember(member);
     }
 
     public void returnItem(CheckedOutItem item) {

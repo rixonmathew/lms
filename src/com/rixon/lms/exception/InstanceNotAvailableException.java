@@ -5,7 +5,7 @@ package com.rixon.lms.exception;
  * User: rixon
  * Date: 17/6/11
  * Time: 9:35 AM
- * To change this template use File | Settings | File Templates.
+ * Exception when a library Item is not found
  */
 public class InstanceNotAvailableException extends RuntimeException {
     public InstanceNotAvailableException(String s) {

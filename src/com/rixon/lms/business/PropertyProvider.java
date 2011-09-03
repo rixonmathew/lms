@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class PropertyProvider {
 
-    private static Map<String,Property> propertyMap;
+    private static final Map<String,Property> propertyMap;
 
     static  {
         propertyMap = new HashMap<String, Property>();

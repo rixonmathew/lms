@@ -35,10 +35,11 @@ public class SearchResultsTableModel extends AbstractTableModel{
     private void initHeader() {
         headerNames = new HashMap<Integer, String>();
         headerNames.put(0,"ID");
-        headerNames.put(1,"Title");
-        headerNames.put(2,"Author");
-        headerNames.put(3,"Description");
-        headerNames.put(4,"Date");
+        headerNames.put(1,"Type");
+        headerNames.put(2,"Title");
+        headerNames.put(3,"Author");
+        headerNames.put(4,"Description");
+        headerNames.put(5,"Published Date");
     }
 
     @Override
@@ -64,23 +65,23 @@ public class SearchResultsTableModel extends AbstractTableModel{
         if (searchResult == null) {
             return null;
         }
-        SearchResultDetail tableRow = searchResult.getAllSearchedItems().get(0);
+        SearchResultDetail tableRow = searchResult.getAllSearchedItems().get(rowIndex);
         ILibraryItem libraryItem = tableRow.getLibraryItem();
         //TODO Search Result is not the correct interface
         switch(columnIndex){
             case 0:
                 return libraryItem.getUniqueId().getValue();
             case 1:
-                return libraryItem.getName();
+                return libraryItem.getItemType().getType();
             case 2:
-                String author = libraryItem.getItemPropertyValue(PropertyProvider.getProperty(PropertyConstants.AUTHOR)).getPropertyValue();
-                return author;
+                return libraryItem.getName();
             case 3:
-                return libraryItem.getName(); //TODO introduce description
+                return libraryItem.getItemPropertyValue(PropertyProvider.getProperty(PropertyConstants.AUTHOR)).getPropertyValue();
             case 4:
-                String publishedDate = libraryItem.getItemPropertyValue(PropertyProvider.
+                return libraryItem.getDescription();
+            case 5:
+                return libraryItem.getItemPropertyValue(PropertyProvider.
                         getProperty(PropertyConstants.PUBLISHED_DATE)).getPropertyValue();
-                return publishedDate;
             default:
                 throw new IllegalArgumentException("Column not expected :"+columnIndex);
         }

@@ -35,10 +35,11 @@ import java.util.List;
 public class LibraryDAO {
 
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
     private static LibraryDAO libraryDAOInstance;
 
     public static LibraryDAO getInstance() {
+        //TODO introduce concept of DAOFactory and System property to switch between Real DAO and MockDAO
         if (libraryDAOInstance==null) {
             libraryDAOInstance = new LibraryDAO();
         }
@@ -92,6 +93,5 @@ public class LibraryDAO {
         Query query = entityManager.createNamedQuery(PropertyRS.ALL_PROPERTY_QUERY);
         List results = query.getResultList();
         return (List<PropertyRS>)results;
-
     }
 }

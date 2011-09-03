@@ -31,10 +31,10 @@ import java.util.Date;
 */
 public class ItemReservation
 {
-    private ILibraryItemInstance libraryItemInstance;
-    private LibraryMember libraryMember;
-    private Date reservationDate;
-    private Date reservationValidUpto;
+    private final ILibraryItemInstance libraryItemInstance;
+    private final LibraryMember libraryMember;
+    private final Date reservationDate;
+    private final Date reservationValidUpto;
 
     private ItemReservation(ILibraryItemInstance libraryItemInstance, LibraryMember libraryMember, Date reservationDate, Date reservationValidUpto) {
         this.libraryItemInstance = libraryItemInstance;

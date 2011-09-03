@@ -7,11 +7,11 @@ import java.util.*;
  * User: rixon
  * Date: 16/6/11
  * Time: 1:00 PM
- * To change this template use File | Settings | File Templates.
+ * Domain class representing the results of Search Query
  */
 public class SearchResult {
 
-    private Map<UniqueIdentifier, SearchResultDetail> searchedLibraryItems = new HashMap<UniqueIdentifier,SearchResultDetail>();
+    private final Map<UniqueIdentifier, SearchResultDetail> searchedLibraryItems = new HashMap<UniqueIdentifier,SearchResultDetail>();
 
     public SearchResultDetail getSearchDetailForId(UniqueIdentifier identifier) {
         return searchedLibraryItems.get(identifier); //TODO introduce concept of Null object

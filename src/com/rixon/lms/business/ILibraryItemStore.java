@@ -57,6 +57,8 @@ public interface ILibraryItemStore {
      */
     public SearchResult searchByIdentifier(UniqueIdentifier preferredId);
 
+    public SearchResult searchAllAttributes(String searchText);
+
     //TODO: Is Store the really the best place to define limit? What if Library
     //needs to define the limit based on member type;
     public int getCheckOutLimitForItem();
@@ -69,7 +71,7 @@ public interface ILibraryItemStore {
 
     public void reserveItem(ItemReservation itemItemReservation);
 
-    public List<ItemReservation> getReservedItemsForMember(ItemType itemTypeRS, LibraryMember member);
+    public List<ItemReservation> getReservedItemsForMember(LibraryMember member);
 
     public void returnItem(CheckedOutItem checkedOutItem);
 }

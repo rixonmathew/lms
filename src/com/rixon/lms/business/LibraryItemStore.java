@@ -36,18 +36,19 @@ import com.rixon.lms.exception.LibrarySystemException;
  */
 public class LibraryItemStore implements ILibraryItemStore {
 
-    private Map<UniqueIdentifier,ILibraryItem> libraryItemsCatalog = new HashMap<UniqueIdentifier,ILibraryItem>();
-    private Map<UniqueIdentifier,List<ILibraryItemInstance>> itemInstances = new HashMap<UniqueIdentifier,List<ILibraryItemInstance>>();
-    private Map<UniqueIdentifier, List<CheckedOutItem>> itemsCheckedOut = new HashMap<UniqueIdentifier, List<CheckedOutItem>>();
-    private Map<UniqueIdentifier,List<ItemReservation>> memberReservations = new HashMap<UniqueIdentifier, List<ItemReservation>>();
+    private final Map<UniqueIdentifier,ILibraryItem> libraryItemsCatalog = new HashMap<UniqueIdentifier,ILibraryItem>();
+    private final Map<UniqueIdentifier,List<ILibraryItemInstance>> itemInstances = new HashMap<UniqueIdentifier,List<ILibraryItemInstance>>();
+    private final Map<UniqueIdentifier, List<CheckedOutItem>> itemsCheckedOut = new HashMap<UniqueIdentifier, List<CheckedOutItem>>();
+    private final Map<UniqueIdentifier,List<ItemReservation>> memberReservations = new HashMap<UniqueIdentifier, List<ItemReservation>>();
     private int itemCheckOutLimit = 2;
 
     public LibraryItemStore() {
         initializeCatalog();
+        //TODO comment this when running tests. THink of how to inject the mock data providers during test
     }
 
     private void initializeCatalog() {
-        //TODO introduce a service layer to do this mapping from RS to domain
+        //TODO replace DAO with facade
         LibraryDAO libraryDAO = LibraryDAO.getInstance();
         List<ItemRS> itemRSs = libraryDAO.getAllItems();
         for(ItemRS itemRS:itemRSs) {
@@ -90,9 +91,13 @@ public class LibraryItemStore implements ILibraryItemStore {
     }
 
     private List<ILibraryItemInstance> getItemInstances(UniqueIdentifier identifier) {
-        List<ILibraryItemInstance> items = itemInstances.get(identifier);
-        if (items == null) {
-            items = new ArrayList<ILibraryItemInstance>();
+
+        //TODO This is for both full and partial match
+        List<ILibraryItemInstance> items = new ArrayList<ILibraryItemInstance>();
+        for (UniqueIdentifier ids:itemInstances.keySet()) {
+            if (ids.getValue().contains(identifier.getValue())) {
+                items.addAll(itemInstances.get(ids));
+            }
         }
         return items;
     }
@@ -229,7 +234,7 @@ public class LibraryItemStore implements ILibraryItemStore {
 
         List<ILibraryItemInstance> itemInstances = new ArrayList<ILibraryItemInstance>();
         for (ILibraryItem libraryItem : libraryItemsCatalog.values()) {
-            if (libraryItem.getName().equalsIgnoreCase(itemTitle)) {
+            if (libraryItem.getName().contains(itemTitle)) {
                 itemInstances.addAll(getItemInstances(libraryItem.getUniqueId()));
             }
         }
@@ -241,6 +246,31 @@ public class LibraryItemStore implements ILibraryItemStore {
         List<ILibraryItemInstance> items = getItemInstances(uniqueIdentifier);
         return new SearchResult(items);
 	}
+
+    @Override
+    public SearchResult searchAllAttributes(String searchText) {
+        List<ILibraryItemInstance> itemInstances = new ArrayList<ILibraryItemInstance>();
+        for (ILibraryItem libraryItem : libraryItemsCatalog.values()) {
+            if (libraryItem.getName().contains(searchText)) {
+                itemInstances.addAll(getItemInstances(libraryItem.getUniqueId()));
+                continue;
+            }
+
+            if (libraryItem.getDescription().contains(searchText)) {
+                itemInstances.addAll(getItemInstances(libraryItem.getUniqueId()));
+                continue;
+            }
+
+            for(ItemPropertyValue itemPropertyValue:libraryItem.getAllItemPropertValues()) {
+
+                if (itemPropertyValue.getPropertyValue().contains(searchText)) {
+                    itemInstances.addAll(getItemInstances(libraryItem.getUniqueId()));
+                    continue;
+                }
+            }
+        }
+        return new SearchResult(itemInstances);
+    }
 
 
     private int getCountOfCheckedOutItems(List<ILibraryItemInstance> items) {
@@ -303,7 +333,7 @@ public class LibraryItemStore implements ILibraryItemStore {
     }
 
     @Override
-    public List<ItemReservation> getReservedItemsForMember(ItemType itemTypeRS, LibraryMember member) {
+    public List<ItemReservation> getReservedItemsForMember(LibraryMember member) {
         return memberReservations.get(member.getMembershipId());
     }
 

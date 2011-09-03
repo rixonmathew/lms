@@ -29,8 +29,8 @@ package com.rixon.lms.domain;
  */
 public class LibraryItemInstance implements ILibraryItemInstance {
 
-    private ILibraryItem libraryItem;
-    private UniqueIdentifier instanceId;
+    private final ILibraryItem libraryItem;
+    private final UniqueIdentifier instanceId;
     private boolean instanceArchived;
     private boolean checkedOut;
     private boolean reserved;

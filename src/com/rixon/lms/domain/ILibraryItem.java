@@ -21,16 +21,16 @@
 
 package com.rixon.lms.domain;
 
+import java.util.List;
+
 /**
- * This interface represents an ItemRS that the Library can store and rent it out to Library Members
+ * This interface represents an Item that the Library can store and rent it out to Library Members.The varios attributes
+ * of the Item are not exposed via normal getters but as Properties. So if you need to find the ISBN you need to query
+ * the item as
+ * <code> ItemPropertyValue value = item.getItemPropertyValue(PropertyProvider.getProperty("ISBN"); </code>
  *
- *
- * Created by Rixon(rixonmathew@gmail.com)
- * User: rixon
- * Date: 6/4/11
- * Time: 3:25 PM
  */
-//TODO add java docs
+
 public interface ILibraryItem {
 
     public String getName();
@@ -41,5 +41,9 @@ public interface ILibraryItem {
     
     public void setItemPropertyValue(ItemPropertyValue itemPropertyValue);
 
+    public List<ItemPropertyValue> getAllItemPropertValues();
+
     public UniqueIdentifier getUniqueId();
+
+    public String getDescription();
 }

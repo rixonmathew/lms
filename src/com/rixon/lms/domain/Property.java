@@ -6,10 +6,10 @@ package com.rixon.lms.domain;
  */
 public final class Property {
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
 
-    public Property(String name, String description) {
+    private  Property(String name, String description) {
         this.name = name;
         this.description = description;
     }
@@ -38,9 +38,8 @@ public final class Property {
         Property property = (Property) o;
 
         if (!description.equals(property.description)) return false;
-        if (!name.equals(property.name)) return false;
+        return name.equals(property.name);
 
-        return true;
     }
 
     @Override

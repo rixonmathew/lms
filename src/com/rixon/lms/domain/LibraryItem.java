@@ -21,7 +21,10 @@
 
 package com.rixon.lms.domain;
 
-import java.util.Map;
+import org.apache.commons.collections.MapUtils;
+import org.hsqldb.lib.Collection;
+
+import java.util.*;
 
 /**
  * @author: Rixon Mathew(rixonmathew@gmail.com)
@@ -29,14 +32,16 @@ import java.util.Map;
  */
 public class LibraryItem implements ILibraryItem {
 
-    private String name;
-    private ItemType itemType;
-    private Map<Property,ItemPropertyValue> itemProperties;
-    private UniqueIdentifier identifier;
+    private final String name;
+    private final String description;
+    private final ItemType itemType;
+    private final Map<Property,ItemPropertyValue> itemProperties;
+    private final UniqueIdentifier identifier;
 
-    private LibraryItem(String name,  ItemType itemType,
+    private LibraryItem(String name, String description,  ItemType itemType,
                        Map<Property,ItemPropertyValue> itemProperties, UniqueIdentifier identifier) {
         this.name = name;
+        this.description = description;
         this.itemType = itemType;
         this.itemProperties = itemProperties;
         this.identifier = identifier;
@@ -64,8 +69,18 @@ public class LibraryItem implements ILibraryItem {
     }
 
     @Override
+    public List<ItemPropertyValue> getAllItemPropertValues() {
+        return Collections.unmodifiableList(new ArrayList<ItemPropertyValue>(itemProperties.values()));
+    }
+
+    @Override
     public UniqueIdentifier getUniqueId() {
         return identifier;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -79,6 +94,7 @@ public class LibraryItem implements ILibraryItem {
             return false;
         if (!identifier.equals(that.identifier)) return false;
         if (!itemType.equals(that.itemType)) return false;
+        if (!description.equals(that.description)) return false;
         return name.equals(that.name);
 
     }
@@ -86,6 +102,7 @@ public class LibraryItem implements ILibraryItem {
     @Override
     public int hashCode() {
         int result = name.hashCode();
+        result = 31 * result + (description==null?0:description.hashCode());
         result = 31 * result + itemType.hashCode();
         result = 31 * result + (itemProperties != null ? itemProperties.hashCode() : 0);
         result = 31 * result + identifier.hashCode();
@@ -96,6 +113,7 @@ public class LibraryItem implements ILibraryItem {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("LibraryItem{").append("name=>").append(name).append("|")
+                                            .append("description=>").append(identifier).append("|")
                                             .append("identifier=>").append(identifier).append("|")
                                             .append("itemType=>").append(itemType).append("|");
 
@@ -110,12 +128,18 @@ public class LibraryItem implements ILibraryItem {
 
     public static class LibraryItemBuilder {
         private String name;
+        private String description;
         private ItemType itemType;
         private Map<Property, ItemPropertyValue> itemProperties;
         private UniqueIdentifier identifier;
 
         public LibraryItemBuilder setName(String name) {
             this.name = name;
+            return this;
+        }
+
+        public LibraryItemBuilder setDescription(String description) {
+            this.description = description;
             return this;
         }
 
@@ -135,7 +159,7 @@ public class LibraryItem implements ILibraryItem {
         }
 
         public LibraryItem createLibraryItem() {
-            return new LibraryItem(name, itemType, itemProperties, identifier);
+            return new LibraryItem(name, description, itemType, itemProperties, identifier);
         }
     }
 }

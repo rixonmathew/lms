@@ -30,10 +30,10 @@ package com.rixon.lms.domain;
  */
 public class LibraryMember {
 
-    private UniqueIdentifier membershipId;
-	private String firstName;
-    private String lastName;
-    private String contactNumber;
+    private final UniqueIdentifier membershipId;
+	private final String firstName;
+    private final String lastName;
+    private final String contactNumber;
 
     public LibraryMember(UniqueIdentifier membershipId, String firstName, String lastName, String contactNumber) {
         this.membershipId = membershipId;

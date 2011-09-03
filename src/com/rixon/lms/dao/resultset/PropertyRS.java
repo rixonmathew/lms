@@ -61,9 +61,8 @@ public class PropertyRS {
         PropertyRS propertyRS = (PropertyRS) o;
 
         if (!name.equals(propertyRS.name)) return false;
-        if (!description.equals(propertyRS.description)) return false;
+        return description.equals(propertyRS.description);
 
-        return true;
     }
 
     @Override

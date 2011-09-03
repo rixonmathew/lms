@@ -35,16 +35,16 @@ import java.util.Map;
  */
 public class StoreProvider {
 
-    private static Map<ItemType, LibraryItemStore> storeCache = new HashMap<ItemType, LibraryItemStore>();
+    private static final Map<ItemType, LibraryItemStore> storeCache = new HashMap<ItemType, LibraryItemStore>();
 
-    public static LibraryItemStore getStoreForItem(ItemType itemTypeRS)
+    public static LibraryItemStore getStoreForItem(ItemType itemType)
     {
         LibraryItemStore store;
         
-        store = storeCache.get(itemTypeRS);
+        store = storeCache.get(itemType);
         if (store == null){
         	store = new LibraryItemStore();
-        	storeCache.put(itemTypeRS, store);
+        	storeCache.put(itemType, store);
         }
         return store;
     }

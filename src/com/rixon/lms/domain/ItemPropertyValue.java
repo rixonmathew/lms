@@ -29,10 +29,12 @@ package com.rixon.lms.domain;
  */
 public class ItemPropertyValue {
 
-    private Property property;
-	private String propertyValue; //TODO introduce an object to make the value type safe
+    private final Property property;
+	private final String propertyValue;
+	//TODO introduce an object to make the value type safe
+    //TODO introduce checking for type safety when value is set
 
-	public ItemPropertyValue(Property property,
+	private ItemPropertyValue(Property property,
                              String propertyValue) {
 		this.property = property;
 		this.propertyValue = propertyValue;

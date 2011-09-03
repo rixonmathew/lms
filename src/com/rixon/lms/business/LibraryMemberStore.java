@@ -35,7 +35,7 @@ import java.util.Set;
 */
 public class LibraryMemberStore {
 
-    Set<LibraryMember> members = new HashSet<LibraryMember>();  //TODO add members to ovwn data store
+    private final Set<LibraryMember> members = new HashSet<LibraryMember>();  //TODO add members to ovwn data store
 
     public Set<LibraryMember> getMembers() {
         return Collections.unmodifiableSet(members);

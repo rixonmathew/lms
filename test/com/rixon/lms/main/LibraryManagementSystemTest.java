@@ -26,8 +26,6 @@ import com.rixon.lms.business.PropertyProvider;
 import com.rixon.lms.domain.*;
 import com.rixon.lms.exception.LibrarySystemException;
 import com.rixon.lms.type.CheckOutStatus;
-import com.rixon.lms.type.OwnerType;
-import com.rixon.lms.type.TypeOfCustomProperty;
 import com.rixon.lms.util.PropertyConstants;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -46,16 +44,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class LibraryManagementSystemTest {
 
-    static LibraryManagementSystem libraryManagementSystem;
+    private static LibraryManagementSystem libraryManagementSystem;
 
     //Utility variables
-    static DateFormat dateFormat;
+    private static DateFormat dateFormat;
     private static final String BOOK="BOOK";
     private static final String MOVIE="MOVIE";
-
-    private static final String ISBN="ISBN";
-    private static final String BARCODE="BARCODE";
-
 
     @BeforeClass
     public static void setUpLibrary() {
@@ -97,7 +91,7 @@ public class LibraryManagementSystemTest {
     public void testAddBook() {
         String bookTitle = "SOLID Principles";
         List<ILibraryItem> libraryItems = new ArrayList<ILibraryItem>();
-        libraryItems.add(new BookBuilder().setTitle(bookTitle).setIsbn("112-1-12-123123-1").setCategory("Technical:OOPS")
+        libraryItems.add(new MockDataProvider.BookBuilder().setTitle(bookTitle).setIsbn("112-1-12-123123-1").setCategory("Technical:OOPS")
                                            .addAuthor("Pablo").addAuthor("Robert C Martin").createBook());
         libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(BOOK), libraryItems);
         SearchResult searchedBooks = libraryManagementSystem.searchForItemByTitle(ItemTypeProvider.getItemType(BOOK), bookTitle);
@@ -112,7 +106,7 @@ public class LibraryManagementSystemTest {
     public void testAddMovie() {
         String movieTitle = "Ready";
         List<ILibraryItem> movies = new ArrayList<ILibraryItem>();
-        movies.add(new MovieBuilder().setTitle(movieTitle).setDirector("Anees Bazmee").setBarCode("BAR11223")
+        movies.add(new MockDataProvider.MovieBuilder().setTitle(movieTitle).setDirector("Anees Bazmee").setBarCode("BAR11223")
                                      .setRating("G").setGenre("Comedy").createMovie());
         libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(MOVIE), movies);
         SearchResult searchedMovies = libraryManagementSystem.searchForItemByTitle(ItemTypeProvider.getItemType(MOVIE), movieTitle);
@@ -183,14 +177,14 @@ public class LibraryManagementSystemTest {
 
     @Test
     public void testAddMultipleCopiesOfBooks() {
-        ILibraryItem book1 = new BookBuilder().setTitle("Let us C").addAuthor("Yeshwant Kanetkar").setIsbn("978-3-16-148410-0").createBook();
-        ILibraryItem book2 = new BookBuilder().setTitle("Let us C").addAuthor("Yeshwant Kanetkar").setIsbn("978-3-16-148410-0").createBook();
+        ILibraryItem book1 = new MockDataProvider.BookBuilder().setTitle("Let us C").addAuthor("Yeshwant Kanetkar").setIsbn("978-3-16-148410-0").createBook();
+        ILibraryItem book2 = new MockDataProvider.BookBuilder().setTitle("Let us C").addAuthor("Yeshwant Kanetkar").setIsbn("978-3-16-148410-0").createBook();
         List<ILibraryItem> books = new ArrayList<ILibraryItem>();
         books.add(book1);
         books.add(book2);
         String bookISBN = "978-3-16-148410-0";
         libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(BOOK), books);
-        UniqueIdentifier uniqueIdForBook = getUniqueIdForBook(bookISBN);
+        UniqueIdentifier uniqueIdForBook = TestUtils.getUniqueIdForBook(bookISBN);
         SearchResult searchedBook = libraryManagementSystem.searchForItemByIdentifier(ItemTypeProvider.
                 getItemType(BOOK), uniqueIdForBook);
         assertNotNull(searchedBook);
@@ -202,17 +196,17 @@ public class LibraryManagementSystemTest {
     @Test
     public void testAddMultipleCopiesOfMovies() {
         String barCode = "BarCode110110110";
-        ILibraryItem movie1 = new MovieBuilder().setTitle("Mera Naam Joker").setDirector("Raj Kapoor")
+        ILibraryItem movie1 = new MockDataProvider.MovieBuilder().setTitle("Mera Naam Joker").setDirector("Raj Kapoor")
                                                 .setBarCode(barCode).setRating("PG-15").setGenre("Tragedy")
                                                 .createMovie();
-        ILibraryItem movie2 = new MovieBuilder().setTitle("Mera Naam Joker").setDirector("Raj Kapoor")
+        ILibraryItem movie2 = new MockDataProvider.MovieBuilder().setTitle("Mera Naam Joker").setDirector("Raj Kapoor")
                                                 .setBarCode(barCode).setRating("PG-15").setGenre("Tragedy")
                                                 .createMovie();
         List<ILibraryItem> movies = new ArrayList<ILibraryItem>();
         movies.add(movie1);
         movies.add(movie2);
         libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(MOVIE),movies);
-        UniqueIdentifier uniqueIdForMovie = getUniqueIdForMovie(barCode);
+        UniqueIdentifier uniqueIdForMovie = TestUtils.getUniqueIdForMovie(barCode);
          SearchResult searchedMovie = libraryManagementSystem.searchForItemByIdentifier(ItemTypeProvider.
                  getItemType(MOVIE), uniqueIdForMovie);
          assertNotNull(searchedMovie);
@@ -224,7 +218,7 @@ public class LibraryManagementSystemTest {
     public void testAssingRatingsToMovies() {
         String movieRating = "PG";
         String movieBarCode = "BAR11100011";
-        UniqueIdentifier identifier = new UniqueIdentifier.UniqueIdentifierBuilder().setType(BARCODE).
+        UniqueIdentifier identifier = new UniqueIdentifier.UniqueIdentifierBuilder().setType(PropertyConstants.BARCODE).
                                            setValue(movieBarCode).createUniqueIdentifier();
         SearchResult searchedMovie = libraryManagementSystem.searchForItemByIdentifier(ItemTypeProvider
                 .getItemType(MOVIE), identifier);
@@ -245,7 +239,7 @@ public class LibraryManagementSystemTest {
     @Test
     public void testAssignCategoryToBooks() {
         String bookISBN = "9780321356680";
-        UniqueIdentifier identifier = getUniqueIdForBook(bookISBN);
+        UniqueIdentifier identifier = TestUtils.getUniqueIdForBook(bookISBN);
 
         String bookCategory = "Fiction;Mystery";
         //TODO Category is hierarchical. Think of a better data structure or format;
@@ -273,7 +267,6 @@ public class LibraryManagementSystemTest {
         assertEquals("Size not 1",1,searchResult.getAllSearchedItems().size());
 
         ILibraryItemInstance bookInstance =  searchResult.getAllSearchedItems().get(0).getNextAvailableInstance();
-        ILibraryItem book = bookInstance.getLibraryItem();
         UniqueIdentifier memberId = new UniqueIdentifier.UniqueIdentifierBuilder().setType("ID").setValue("1").createUniqueIdentifier();
         member = libraryManagementSystem.searchForMemberById(memberId);
         CheckedOutItem checkedOutItem = new CheckedOutItem.CheckedOutItemBuilder()
@@ -300,7 +293,6 @@ public class LibraryManagementSystemTest {
         assertEquals("Size not 1",1,searchResult.getAllSearchedItems().size());
 
         ILibraryItemInstance movieInstance =  searchResult.getAllSearchedItems().get(0).getNextAvailableInstance();
-        ILibraryItem movie = movieInstance.getLibraryItem();
         UniqueIdentifier memberId = new UniqueIdentifier.UniqueIdentifierBuilder().setType("ID").setValue("1").createUniqueIdentifier();
         member = libraryManagementSystem.searchForMemberById(memberId);
         CheckedOutItem checkedOutItem = new CheckedOutItem.CheckedOutItemBuilder()
@@ -322,22 +314,22 @@ public class LibraryManagementSystemTest {
     public void testCheckOutLimitForBooks() {
         int bookCheckOutLimit = libraryManagementSystem.getItemCheckOutLimit(ItemTypeProvider.getItemType(BOOK));
         LibraryMember member = libraryManagementSystem.searchForMemberById(getUniqueIdForMember("2"));
-        List<ILibraryItem> books = getMockListOfBooks();
+        List<ILibraryItem> books = MockDataProvider.getMockListOfBooks();
         if ( bookCheckOutLimit > books.size()) {
             throw new IllegalArgumentException("Mock list of books s lesser than check out limit. Add more mock books");
         }
-        for (int ctr = 0; ctr < books.size(); ctr++) {
-            SearchResult searchResult = libraryManagementSystem.searchForItemByTitle(ItemTypeProvider.getItemType(BOOK),books.get(ctr).getName());
+        for (ILibraryItem book : books) {
+            SearchResult searchResult = libraryManagementSystem.searchForItemByTitle(ItemTypeProvider.getItemType(BOOK), book.getName());
             assertNotNull(searchResult);
             assertEquals("Size not 1", 1, searchResult.getAllSearchedItems().size());
             ILibraryItemInstance bookInstance = searchResult.getAllSearchedItems().get(0).getNextAvailableInstance();
-            if ( bookInstance == null)
-                 continue;
+            if (bookInstance == null)
+                continue;
 
             CheckedOutItem checkedOutItem = new CheckedOutItem.CheckedOutItemBuilder()
-                                        .setLibraryItemInstance(bookInstance).setMember(member)
-                                        .setCheckedOutDate(getFormattedDate("06/16/2011"))
-                                        .setReturnDate(getFormattedDate("06/30/2011")).createItemCheckedOut();
+                    .setLibraryItemInstance(bookInstance).setMember(member)
+                    .setCheckedOutDate(getFormattedDate("06/16/2011"))
+                    .setReturnDate(getFormattedDate("06/30/2011")).createItemCheckedOut();
             libraryManagementSystem.checkOutItemToMember(checkedOutItem);
         }
     }
@@ -349,7 +341,7 @@ public class LibraryManagementSystemTest {
         int movieCheckOutLimit = libraryManagementSystem.getItemCheckOutLimit(ItemTypeProvider.getItemType(MOVIE));
 
         LibraryMember member = libraryManagementSystem.searchForMemberById(getUniqueIdForMember("2"));
-        List<ILibraryItem> movies = getMockListOfMovies();
+        List<ILibraryItem> movies = MockDataProvider.getMockListOfMovies();
         if (movieCheckOutLimit > movies.size()) {
             throw new IllegalArgumentException("Mock list of movies is lesser than check out limit. Add more mock movies");
         }
@@ -376,7 +368,7 @@ public class LibraryManagementSystemTest {
     public void testBookReservation()
     {
         String bookISBN = "9180421356680";
-        UniqueIdentifier identifier = getUniqueIdForBook(bookISBN);
+        UniqueIdentifier identifier = TestUtils.getUniqueIdForBook(bookISBN);
         SearchResult searchResult = libraryManagementSystem.searchForItemByIdentifier(ItemTypeProvider.getItemType(BOOK),identifier);
         assertNotNull(searchResult);
         SearchResultDetail searchResultDetail = searchResult.getSearchDetailForId(identifier);
@@ -419,7 +411,7 @@ public class LibraryManagementSystemTest {
         List<ILibraryItem> books = createMockBooksForTestReturn();
         libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(BOOK),books);
         String bookId = "978-81-775-8996-2";
-        UniqueIdentifier uniqueIdForBook = getUniqueIdForBook(bookId);
+        UniqueIdentifier uniqueIdForBook = TestUtils.getUniqueIdForBook(bookId);
         SearchResult searchResult = libraryManagementSystem.searchForItemByIdentifier(ItemTypeProvider.getItemType(BOOK), uniqueIdForBook);
         assertNotNull(searchResult);
         SearchResultDetail searchResultDetail = searchResult.getSearchDetailForId(uniqueIdForBook);
@@ -442,19 +434,19 @@ public class LibraryManagementSystemTest {
                 libraryManagementSystem.returnItem(item);
             }
         }
-
-        allCheckedOutItems= libraryManagementSystem.getCheckedOutItemsForMember(ItemTypeProvider.getItemType(BOOK),member);
+        //TODO complete the tests
+        //allCheckedOutItems= libraryManagementSystem.getCheckedOutItemsForMember(ItemTypeProvider.getItemType(BOOK),member);
 
     }
 
     private List<ILibraryItem> createMockBooksForTestReturn() {
-        ILibraryItem book1 = new BookBuilder().setTitle("Software Architecture in Practice").addAuthor("Len Bass").addAuthor("Paul Clements")
+        ILibraryItem book1 = new MockDataProvider.BookBuilder().setTitle("Software Architecture in Practice").addAuthor("Len Bass").addAuthor("Paul Clements")
                                               .addAuthor("Rick Kazman").setCategory("Technical:Architecture").setIsbn("978-81-775-8996-2")
                                               .createBook();
-        ILibraryItem book2 = new BookBuilder().setTitle("Software Architecture in Practice").addAuthor("Len Bass").addAuthor("Paul Clements")
+        ILibraryItem book2 = new MockDataProvider.BookBuilder().setTitle("Software Architecture in Practice").addAuthor("Len Bass").addAuthor("Paul Clements")
                                               .addAuthor("Rick Kazman").setCategory("Technical:Architecture").setIsbn("978-81-775-8996-2")
                                               .createBook();
-        ILibraryItem book3 = new BookBuilder().setTitle("Software Architecture in Practice").addAuthor("Len Bass").addAuthor("Paul Clements")
+        ILibraryItem book3 = new MockDataProvider.BookBuilder().setTitle("Software Architecture in Practice").addAuthor("Len Bass").addAuthor("Paul Clements")
                                               .addAuthor("Rick Kazman").setCategory("Technical:Architecture").setIsbn("978-81-775-8996-2")
                                               .createBook();
 
@@ -472,7 +464,7 @@ public class LibraryManagementSystemTest {
         try {
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         throw new IllegalArgumentException("Invalid date string "+dateString);
     }
@@ -486,188 +478,13 @@ public class LibraryManagementSystemTest {
     }
 
     private static void addMockBooksToLibrary(LibraryManagementSystem libraryManagementSystem) {
-        libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(BOOK),getMockListOfBooks());
-    }
-
-    private static List<ILibraryItem> getMockListOfBooks() {
-        List<ILibraryItem> books = new ArrayList<ILibraryItem>();
-        books.add(new BookBuilder().setTitle("Effective Java").setIsbn("9780321356680").setCategory("Technical:Java")
-                                   .addAuthor("Joshua Bloch").createBook());
-        books.add(new BookBuilder().setTitle("Effective Java").setIsbn("9780321356680").setCategory("Technical:Java")
-                                   .addAuthor("Joshua Bloch").createBook());
-        books.add(new BookBuilder().setTitle("David Copperfield").addAuthor("Charles Dickens").setIsbn("9181321356680")
-                                   .setCategory("Fiction:Classic").createBook());
-        books.add(new BookBuilder().setTitle("David Copperfield").addAuthor("Charles Dickens").setIsbn("9181321356680")
-                                   .setCategory("Fiction:Classic").createBook());
-        books.add(new BookBuilder().setTitle("David Copperfield").addAuthor("Charles Dickens").setIsbn("9181321356680")
-                                   .setCategory("Fiction:Classic").createBook());
-        books.add(new BookBuilder().setTitle("TDD By Example").addAuthor("Kent Beck").setIsbn("9180321356680")
-                                   .setCategory("Technical:TDD").createBook());
-        books.add(new BookBuilder().setTitle("TDD By Example").addAuthor("Kent Beck").setIsbn("9180321356680")
-                                   .setCategory("Technical:TDD").createBook());
-        books.add(new BookBuilder().setTitle("Clean Code").addAuthor("Robert C Martin").setIsbn("9180321336680")
-                                   .setCategory("Technical:Programming").createBook());
-        books.add(new BookBuilder().setTitle("The Pragmatic Programmer, From Journeyman To Master").addAuthor("Andrew Hunt")
-                                   .setIsbn("9180421356680").setCategory("Technical:Programming").createBook());
-        books.add(new BookBuilder().setTitle("The Lord of the Rings").addAuthor("JRR Tolkien").setIsbn("9180521121680")
-                                   .setCategory("Classic:Fiction").createBook());
-        return books;
-    }
-
-    private static class BookBuilder {
-        private String title;
-        private String isbn;
-        private List<String> authors = new ArrayList<String>();
-        private String category;
-
-        private BookBuilder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        private BookBuilder setIsbn(String isbn) {
-            this.isbn = isbn;
-            return this;
-        }
-
-        private BookBuilder addAuthor(String author) {
-            this.authors.add(author);
-            return  this;
-        }
-
-        private BookBuilder setCategory(String category) {
-            this.category = category;
-            return this;
-        }
-
-        private ILibraryItem createBook() {
-
-            LibraryItem.LibraryItemBuilder itemBuilder = new LibraryItem.LibraryItemBuilder();
-            itemBuilder.setItemType(ItemTypeProvider.getItemType(BOOK));
-            UniqueIdentifier identifier = getUniqueIdForBook(isbn);
-            itemBuilder.setIdentifier(identifier);
-            itemBuilder.setName(title);
-            ItemOwnerInformation ownerInformation = ItemOwnerInformation.createWithMultipleOwners(OwnerType.AUTHOR, authors);
-            //itemBuilder.setOwnerInformation(ownerInformation);
-            ItemPropertyValue categoryInformation = new ItemPropertyValue.ItemPropertyValueBuilder()
-                    .setProperty(PropertyProvider.getProperty(PropertyConstants.CATEGORY))
-                    .setPropertyValue(category).createItemPropertyValue();
-            Map<Property, ItemPropertyValue> customProperties = new HashMap<Property, ItemPropertyValue>();
-            customProperties.put(PropertyProvider.getProperty(PropertyConstants.CATEGORY),categoryInformation);
-            itemBuilder.setItemProperties(customProperties);
-            return itemBuilder.createLibraryItem();
-        }
-
-    }
-
-    private static UniqueIdentifier getUniqueIdForBook(String bookISBN) {
-        return new UniqueIdentifier.UniqueIdentifierBuilder().setType(ISBN).
-                                                       setValue(bookISBN).createUniqueIdentifier();
-    }
-
-    private static UniqueIdentifier getUniqueIdForMovie(String barCode) {
-        return new UniqueIdentifier.UniqueIdentifierBuilder().setType(BARCODE).
-                                                       setValue(barCode).createUniqueIdentifier();
+        libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(BOOK), MockDataProvider.getMockListOfBooks());
     }
 
 
     private static void addMockMoviesToLibrary(LibraryManagementSystem libraryManagementSystem) {
-        libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(MOVIE), getMockListOfMovies());
+        libraryManagementSystem.addLibraryItems(ItemTypeProvider.getItemType(MOVIE), MockDataProvider.getMockListOfMovies());
     }
-
-    private static  List<ILibraryItem> getMockListOfMovies() {
-        List<ILibraryItem> movies = new ArrayList<ILibraryItem>();
-
-        movies.add(new MovieBuilder().setTitle("Godfather").setDirector("Francis Ford Coppolla").setRating("U/A")
-                                     .setBarCode("BAR11100001").setGenre("Thriller").createMovie());
-        movies.add(new MovieBuilder().setTitle("Godfather").setDirector("Francis Ford Coppolla").setRating("U/A")
-                                     .setBarCode("BAR11100001").setGenre("Thriller").createMovie());
-
-        movies.add(new MovieBuilder().setTitle("Sholay").setDirector("Ramesh Sippy").setRating("G")
-                                     .setBarCode("BAR11100011").setGenre("Action").createMovie());
-        movies.add(new MovieBuilder().setTitle("Sholay").setDirector("Ramesh Sippy").setRating("G")
-                                     .setBarCode("BAR11100011").setGenre("Action").createMovie());
-
-        movies.add(new MovieBuilder().setTitle("Dabangg").setDirector("Arbaaz Khan").setBarCode("BAR11100021")
-                                     .setRating("G").setGenre("Masala").createMovie());
-        movies.add(new MovieBuilder().setTitle("Dabangg").setDirector("Arbaaz Khan").setBarCode("BAR11100021")
-                                     .setRating("G").setGenre("Masala").createMovie());
-
-        movies.add(new MovieBuilder().setTitle("Inception").setDirector("Christopher Nolan").setBarCode("BAR11100031")
-                                     .setRating("G").setRating("Futuristic").createMovie());
-        movies.add(new MovieBuilder().setTitle("Inception").setDirector("Christopher Nolan").setBarCode("BAR11100031")
-                                     .setRating("G").setRating("Futuristic").createMovie());
-
-        movies.add(new MovieBuilder().setTitle("The Social Network").setDirector("David Fincher")
-                                     .setBarCode("BAR11100041").setRating("G").setGenre("Book Adaption").createMovie());
-        movies.add(new MovieBuilder().setTitle("The Social Network").setDirector("David Fincher")
-                                     .setBarCode("BAR11100041").setRating("G").setGenre("Book Adaption").createMovie());
-
-        movies.add(new MovieBuilder().setTitle("The Lord of the Rings").setDirector("Peter Jackson")
-                                     .setBarCode("BAR11100051").setGenre("War").setRating("PG-13").createMovie());
-        movies.add(new MovieBuilder().setTitle("The Lord of the Rings").setDirector("Peter Jackson")
-                                     .setBarCode("BAR11100051").setGenre("War").setRating("PG-13").createMovie());
-
-        return movies;
-    }
-
-    private static class MovieBuilder {
-
-        private String title;
-        private String director;
-        private String rating;
-        private String barCode;
-        private String genre;
-
-        private MovieBuilder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        private MovieBuilder setDirector(String director) {
-            this.director = director;
-            return this;
-        }
-
-        private MovieBuilder setRating(String rating)
-        {
-            this.rating = rating;
-            return this;
-        }
-
-        private MovieBuilder setBarCode(String barCode) {
-            this.barCode = barCode;
-            return this;
-        }
-
-        private MovieBuilder setGenre(String genre) {
-            this.genre = genre;
-            return this;
-        }
-
-        private ILibraryItem createMovie()
-        {
-            LibraryItem.LibraryItemBuilder itemBuilder = new LibraryItem.LibraryItemBuilder();
-            itemBuilder.setItemType(ItemTypeProvider.getItemType(MOVIE));
-            UniqueIdentifier identifier = new UniqueIdentifier.UniqueIdentifierBuilder().setType(BARCODE)
-                                               .setValue(barCode).createUniqueIdentifier();
-            itemBuilder.setIdentifier(identifier);
-            itemBuilder.setName(title);
-            ItemOwnerInformation ownerInformation = ItemOwnerInformation.createWithSingleOwner(OwnerType.DIRECTOR, director);
-            //itemBuilder.setOwnerInformation(ownerInformation);
-            ItemPropertyValue categoryInformation = new ItemPropertyValue.ItemPropertyValueBuilder()
-                    .setProperty(PropertyProvider.getProperty(PropertyConstants.RATING))
-                    .setPropertyValue(rating).createItemPropertyValue();
-            ItemPropertyValue genreInformation = new ItemPropertyValue.ItemPropertyValueBuilder()
-                    .setProperty(PropertyProvider.getProperty(PropertyConstants.GENRE))
-                    .setPropertyValue(genre).createItemPropertyValue();
-            Map<Property, ItemPropertyValue> customProperties = new HashMap<Property, ItemPropertyValue>();
-            customProperties.put(PropertyProvider.getProperty(PropertyConstants.CATEGORY),categoryInformation);
-            customProperties.put(PropertyProvider.getProperty(PropertyConstants.GENRE),genreInformation);
-            itemBuilder.setItemProperties(customProperties);
-            return itemBuilder.createLibraryItem();
-        }
-   }
 
 
     private static void addMockMemberToLibrary(LibraryManagementSystem libraryManagementSystem) {
@@ -680,6 +497,4 @@ public class LibraryManagementSystemTest {
         return new UniqueIdentifier.UniqueIdentifierBuilder().setType("ID").
                                                        setValue(memberId).createUniqueIdentifier();
     }
-
-
 }

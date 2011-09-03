@@ -9,15 +9,15 @@ import java.util.List;
  * User: rixon
  * Date: 16/6/11
  * Time: 8:04 PM
- * To change this template use File | Settings | File Templates.
+ * Domain class representing the details of Search
  */
 public class SearchResultDetail {
-    private ILibraryItem libraryItem;
-    private List<ILibraryItemInstance> itemInstances;
-    private int totalCopiesInLibrary;
-    private int copiesCheckedOut;
-    private int copiesReserved;
-    private int copiesArchived;
+    private final ILibraryItem libraryItem;
+    private final List<ILibraryItemInstance> itemInstances;
+    private final int totalCopiesInLibrary;
+    private final int copiesCheckedOut;
+    private final int copiesReserved;
+    private final int copiesArchived;
 
     private SearchResultDetail(ILibraryItem libraryItem, List<ILibraryItemInstance> itemInstances, int totalCopiesInLibrary, int copiesCheckedOut, int copiesReserved, int copiesArchived) {
         this.libraryItem = libraryItem;

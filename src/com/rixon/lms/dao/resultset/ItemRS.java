@@ -13,6 +13,7 @@ import java.util.Map;
 public class ItemRS {
 
     public final static String ALL_ITEMS_QUERY="allItems";
+    //TODO add a query where  item properties can be queried
 
     private int id;
     private ItemTypeRS itemTypeRS;
@@ -28,7 +29,6 @@ public class ItemRS {
     public void setId(int id) {
         this.id = id;
     }
-
 
     @ManyToOne
     @JoinColumn(name="ITEM_TYPE_ID")

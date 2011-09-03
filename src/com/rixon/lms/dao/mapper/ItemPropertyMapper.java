@@ -7,7 +7,7 @@ import com.rixon.lms.domain.ItemPropertyValue;
  * @author: Rixon Mathew(rixonmathew@gmail.com)
  * date   : 8/28/11 - 11:29 PM
  */
-public class ItemPropertyMapper {
+class ItemPropertyMapper {
 
     public static ItemPropertyValue mapToItemProperty(ItemPropertyRS itemPropertyRS) {
         ItemPropertyValue.ItemPropertyValueBuilder builder = new ItemPropertyValue.ItemPropertyValueBuilder();

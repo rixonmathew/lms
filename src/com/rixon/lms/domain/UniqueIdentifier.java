@@ -29,8 +29,8 @@ import java.util.UUID;
  */
 public class UniqueIdentifier {
 
-    private String type;
-    private String value;
+    private final String type;
+    private final String value;
 
     private UniqueIdentifier(String type, String value) {
         this.type = type;

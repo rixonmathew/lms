@@ -9,14 +9,14 @@ import java.util.Date;
  * User: rixon
  * Date: 16/6/11
  * Time: 11:21 AM
- * To change this template use File | Settings | File Templates.
+ * Domain class representing a CheckedOut Item
  */
 public class CheckedOutItem {
 
-    private ILibraryItemInstance libraryItemInstance;
-    private LibraryMember member;
-    private Date checkedOutDate;
-    private Date requiredReturnDate;
+    private final ILibraryItemInstance libraryItemInstance;
+    private final LibraryMember member;
+    private final Date checkedOutDate;
+    private final Date requiredReturnDate;
     private CheckOutStatus checkOutStatus = CheckOutStatus.CHECKED_OUT;
     private Date actualReturnDate;
     private Money fees;

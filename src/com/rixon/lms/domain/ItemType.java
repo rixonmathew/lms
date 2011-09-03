@@ -6,8 +6,8 @@ package com.rixon.lms.domain;
  */
 public class ItemType {
 
-    private String type;
-    private String description;
+    private final String type;
+    private final String description;
 
     public String getType() {
         return type;
@@ -17,7 +17,7 @@ public class ItemType {
         return description;
     }
 
-    public ItemType(String type, String description) {
+    private ItemType(String type, String description) {
         this.type = type;
         this.description = description;
     }
@@ -31,9 +31,8 @@ public class ItemType {
 
         if (description != null ? !description.equals(itemType.description) : itemType.description != null)
             return false;
-        if (type != null ? !type.equals(itemType.type) : itemType.type != null) return false;
+        return !(type != null ? !type.equals(itemType.type) : itemType.type != null);
 
-        return true;
     }
 
     @Override
