@@ -6,7 +6,7 @@ import com.rixon.lms.domain.SearchResult;
 import com.rixon.lms.domain.SearchResultDetail;
 import com.rixon.lms.util.LMSUtil;
 import com.rixon.lms.util.PropertyConstants;
-import org.eclipse.persistence.internal.jpa.weaving.MethodWeaver;
+
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
