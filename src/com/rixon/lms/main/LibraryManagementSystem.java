@@ -38,8 +38,18 @@ import java.util.Set;
 public class LibraryManagementSystem {
 
     private final LibraryMemberStore memberStore;
+    
+    private static LibraryManagementSystem INSTANCE;
+    
+    //TODO Check if singleton is the best way to acheive the requirements
+    public static LibraryManagementSystem getInstance() {
+    	if (INSTANCE == null) {
+    		INSTANCE = new LibraryManagementSystem();
+    	}
+    	return INSTANCE;
+    }
 
-    public LibraryManagementSystem()
+    private LibraryManagementSystem()
     {
         memberStore = new LibraryMemberStore();
     }
@@ -141,4 +151,8 @@ public class LibraryManagementSystem {
         LibraryItemStore itemStore = StoreProvider.getStoreForItem(itemType);
         itemStore.returnItem(item);
     }
+
+	public Set<Role> getAllRoles() {
+		return memberStore.getAllRoles();
+	}
 }

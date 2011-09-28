@@ -21,10 +21,15 @@
 
 package com.rixon.lms.business;
 
+import com.rixon.lms.dao.LibraryDAO;
+import com.rixon.lms.dao.mapper.RoleMapper;
+import com.rixon.lms.dao.resultset.RoleRS;
 import com.rixon.lms.domain.LibraryMember;
+import com.rixon.lms.domain.Role;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +41,12 @@ import java.util.Set;
 public class LibraryMemberStore {
 
     private final Set<LibraryMember> members = new HashSet<LibraryMember>();  //TODO add members to ovwn data store
+    private final Set<Role> roles = new HashSet<Role>();
 
+    public LibraryMemberStore() {
+    	initializeMemeberStore();
+    }
+    
     public Set<LibraryMember> getMembers() {
         return Collections.unmodifiableSet(members);
     }
@@ -44,5 +54,17 @@ public class LibraryMemberStore {
     public void addMember(LibraryMember libraryMember) {
         members.add(libraryMember);
     }
+
+	public Set<Role> getAllRoles() {
+		return Collections.unmodifiableSet(roles);
+	}
+	
+	private void initializeMemeberStore() {
+		LibraryDAO libraryDAO = LibraryDAO.getInstance();	   
+	   List<RoleRS> roleRSList = libraryDAO.getAllRoles();
+	   for(RoleRS roleRS:roleRSList) {
+		   roles.add(RoleMapper.mapToRole(roleRS));
+	   }
+	}
 
 }

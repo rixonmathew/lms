@@ -22,17 +22,18 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence ">
-    <persistence-unit name="lms-eclipselink" transaction-name="RESOURCE_LOCAL">
+    <persistence-unit name="lms-eclipselink" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>com.rixon.lms.dao.resultset.ItemTypeRS</class>
         <class>com.rixon.lms.dao.resultset.ItemRS</class>
         <class>com.rixon.lms.dao.resultset.PropertyRS</class>
         <class>com.rixon.lms.dao.resultset.ItemPropertyRS</class>
+        <class>com.rixon.lms.dao.resultset.RoleRS</class>
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@rixpc:1521:rixorcl"/>
-            <property name="javax.persistence.jdbc.user" value="rixon"/>
-            <property name="javax.persistence.jdbc.password" value="oracle"/>
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost:9654/lms_db"/>
+            <property name="javax.persistence.jdbc.user" value="SA"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
         </properties>
     </persistence-unit>
 

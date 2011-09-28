@@ -24,6 +24,7 @@ package com.rixon.lms.dao;
 import com.rixon.lms.dao.resultset.ItemRS;
 import com.rixon.lms.dao.resultset.ItemTypeRS;
 import com.rixon.lms.dao.resultset.PropertyRS;
+import com.rixon.lms.dao.resultset.RoleRS;
 
 import javax.persistence.*;
 import java.util.List;
@@ -94,4 +95,10 @@ public class LibraryDAO {
         List results = query.getResultList();
         return (List<PropertyRS>)results;
     }
+    
+	public List<RoleRS> getAllRoles() {
+		Query query = entityManager.createNamedQuery(RoleRS.ALL_ROLE_QUERY);
+		List results = query.getResultList();
+		return (List<RoleRS>)results;
+	}
 }

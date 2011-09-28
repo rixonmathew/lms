@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test Class to Test the requirements for the LibraryManagementSystem System.
@@ -53,7 +52,7 @@ public class LibraryManagementSystemTest {
 
     @BeforeClass
     public static void setUpLibrary() {
-        libraryManagementSystem = new LibraryManagementSystem();
+        libraryManagementSystem = LibraryManagementSystem.getInstance();
         dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         addMockDataToLibrary(libraryManagementSystem);
     }
@@ -334,8 +333,6 @@ public class LibraryManagementSystemTest {
         }
     }
 
-
-
     @Test(expected = LibrarySystemException.class)
     public void testCheckOutLimitforMovies() {
         int movieCheckOutLimit = libraryManagementSystem.getItemCheckOutLimit(ItemTypeProvider.getItemType(MOVIE));
@@ -362,7 +359,6 @@ public class LibraryManagementSystemTest {
         }
 
     }
-
 
     @Test
     public void testBookReservation()
@@ -423,7 +419,7 @@ public class LibraryManagementSystemTest {
                                                           .createItemCheckedOut();
         libraryManagementSystem.checkOutItemToMember(checkedOutItem);
 
-        //Now search fo checked out item and return that
+        //Now search for checked out item and return that
         List<CheckedOutItem> allCheckedOutItems = libraryManagementSystem.getCheckedOutItemsForMember(ItemTypeProvider.getItemType(BOOK),member);
         for(CheckedOutItem item:allCheckedOutItems) {
             if (item.equals(checkedOutItem)) {
@@ -437,6 +433,14 @@ public class LibraryManagementSystemTest {
         //TODO complete the tests
         //allCheckedOutItems= libraryManagementSystem.getCheckedOutItemsForMember(ItemTypeProvider.getItemType(BOOK),member);
 
+    }
+
+    @Test
+    public void testGetAllRoles() {
+    	Set<Role> roles = libraryManagementSystem.getAllRoles();
+    	for (Role role:roles) {
+    		System.out.println(role);
+    	}
     }
 
     private List<ILibraryItem> createMockBooksForTestReturn() {

@@ -18,6 +18,18 @@ public class ResourceBundleKeys {
     public final static String AF_DIALOG_TITLE = "AF_DIALOG_TITLE";
 
 
+    //Constants for Navigation Pane
+    public final static String NAVIGATION_PANE_HEADER = "NAVIGATION_PANE_HEADER";
+    
+    //Constants for Menu Entries
+	public final static String SEARCH_ITEM="SEARCH_ITEM";
+	public final static String ADD_USER="ADD_USER";
+	public final static String EDIT_ITEM="EDIT_ITEM";
+	public final static String VIEW_REPORT="VIEW_REPORT";
+	public final static String EDIT_PREFERENCS="EDIT_PREFERENCES";
+
+    
+    
     public final static String SEARCH_LABEL_TEXT = "SEARCH_LABEL_TEXT";
     public final static String SEARCH_BUTTON_TEXT = "SEARCH_BUTTON_TEXT";
     public final static String FORM_TITLE = "FORM_TITLE";

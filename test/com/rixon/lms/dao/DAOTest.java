@@ -21,16 +21,18 @@
 
 package com.rixon.lms.dao;
 
+import static org.junit.Assert.*;
+
 import com.rixon.lms.dao.resultset.ItemRS;
 import com.rixon.lms.dao.resultset.ItemTypeRS;
+import com.rixon.lms.dao.resultset.RoleRS;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 
 /**
  * @author Rixon Mathew(rixonmathew@gmail.com)
@@ -87,4 +89,14 @@ public class DAOTest {
 //        //remove the itemtype that has been added
 //        libraryDAO.removeItemType(type);
 //    }
+    
+    @Test
+    public void testGetAllRoles() {
+        List<RoleRS> rolesResultSet = libraryDAO.getAllRoles();
+        assertNotNull(rolesResultSet);
+        for (RoleRS role:rolesResultSet) {
+        	System.out.println(role);
+        }
+    	
+    }
 }
