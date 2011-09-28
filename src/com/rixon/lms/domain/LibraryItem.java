@@ -22,7 +22,6 @@
 package com.rixon.lms.domain;
 
 import org.apache.commons.collections.MapUtils;
-import org.hsqldb.lib.Collection;
 
 import java.util.*;
 

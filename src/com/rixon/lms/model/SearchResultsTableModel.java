@@ -4,10 +4,14 @@ import com.rixon.lms.business.PropertyProvider;
 import com.rixon.lms.domain.ILibraryItem;
 import com.rixon.lms.domain.SearchResult;
 import com.rixon.lms.domain.SearchResultDetail;
+import com.rixon.lms.util.LMSUtil;
 import com.rixon.lms.util.PropertyConstants;
 
+
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
