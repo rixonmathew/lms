@@ -21,10 +21,7 @@
 
 package com.rixon.lms.dao;
 
-import com.rixon.lms.dao.resultset.ItemRS;
-import com.rixon.lms.dao.resultset.ItemTypeRS;
-import com.rixon.lms.dao.resultset.PropertyRS;
-import com.rixon.lms.dao.resultset.RoleRS;
+import com.rixon.lms.dao.resultset.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -101,4 +98,24 @@ public class LibraryDAO {
 		List results = query.getResultList();
 		return (List<RoleRS>)results;
 	}
+
+    public MemberRS findMember(String emailId, String password) {
+        Query query = entityManager.createNamedQuery(MemberRS.FIND_MEMBER);
+        query.setParameter("emailId",emailId);
+        query.setParameter("password",password);
+        List results = query.getResultList();
+        MemberRS memberRS = null;
+        if ((results !=null) && (!results.isEmpty())) {
+            memberRS = ((List<MemberRS>)results).get(0);
+
+        }
+        return memberRS;
+    }
+
+    public void addMember(MemberRS memberRS) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(memberRS);
+        transaction.commit();
+    }
 }

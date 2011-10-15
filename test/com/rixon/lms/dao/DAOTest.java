@@ -22,9 +22,11 @@
 package com.rixon.lms.dao;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import com.rixon.lms.dao.resultset.ItemRS;
 import com.rixon.lms.dao.resultset.ItemTypeRS;
+import com.rixon.lms.dao.resultset.MemberRS;
 import com.rixon.lms.dao.resultset.RoleRS;
 
 import org.junit.AfterClass;
@@ -98,5 +100,37 @@ public class DAOTest {
         	System.out.println(role);
         }
     	
+    }
+
+    @Test
+    public void testValidMember() {
+        final String emailId="rixonmathew@gmail.com";
+        final String password="lms123#";
+        MemberRS memberRS = libraryDAO.findMember(emailId,password);
+        assertNotNull(memberRS);
+        assertEquals("Email id does not match",emailId,memberRS.getEmailId());
+        assertEquals("Password does not match",password,memberRS.getPassword());
+    }
+
+
+    @Test
+    public void testInvalidMember() {
+        final String emailId="notpresent@gmail.com";
+        final String password="password";
+        MemberRS memberRS = libraryDAO.findMember(emailId,password);
+        assertNull(memberRS);
+    }
+
+    @Test
+    public void addNewMember() {
+        final String email = "stevejobs@apple.com";
+        final String password = "apple123";
+        MemberRS memberRS = DAOMockDataProvider.getMemberRecord("Steve","Jobs",email,"1158876659","Cupertino in United States of America", password);
+        libraryDAO.addMember(memberRS);
+        //find the newly Added member
+        memberRS = libraryDAO.findMember(email,password);
+        assertNotNull(memberRS);
+        assertEquals("Email id does not match",email,memberRS.getEmailId());
+        assertEquals("Password does not match",password,memberRS.getPassword());
     }
 }

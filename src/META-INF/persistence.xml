@@ -29,6 +29,7 @@
         <class>com.rixon.lms.dao.resultset.PropertyRS</class>
         <class>com.rixon.lms.dao.resultset.ItemPropertyRS</class>
         <class>com.rixon.lms.dao.resultset.RoleRS</class>
+        <class>com.rixon.lms.dao.resultset.MemberRS</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost:9654/lms_db"/>
